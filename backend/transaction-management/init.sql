@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    amount FLOAT NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    description VARCHAR(255),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

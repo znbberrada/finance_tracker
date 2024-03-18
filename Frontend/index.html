@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Finance Tracker - Login</title> <!-- Updated title -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <img src="logo.png" width="100px" style="border-radius: 10px;" alt="">
+        <h2>Authentication Page</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <h4>Don't have an Account ?</h4>
+        <a href="register.html" id="registerButton">Register</a>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.getElementById('registerButton').addEventListener('click', function() {
+            history.pushState(null, null, 'register.html');
+            window.location.href = 'register.html';
+        });
+    </script>
+</body>
+</html>

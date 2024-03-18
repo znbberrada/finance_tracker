@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts and RIB</title>
+    <link rel="stylesheet" href="style-tran.css">
+</head>
+<body>
+    <div id="cont">
+        <img src="logo.png" width="100px" style="border-radius: 10px;" alt="">
+        <nav>
+            <ul>
+                <li><a href="#contactsSection">List of Contacts</a></li>
+                <li><a href="#balance">Balance</a></li>
+                <li><a href="#virement">Make a Transfer</a></li>
+            </ul>
+        </nav>
+    <div id="content">
+        <section id="contactsSection" class="content-section">
+            <h2>List of Contacts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>RIB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>johndoe@example.com</td>
+                        <td>FR76 1234 5678 9012 3456 7890 123</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>janesmith@example.com</td>
+                        <td>FR14 2004 1010 0505 0001 3M02 606</td>
+                    </tr>
+                    <tr>
+                        <td>Emily Johnson</td>
+                        <td>emilyjohnson@example.com</td>
+                        <td>FR15 3000 6000 0112 3456 7890 189</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section  id="balance" class="content-section">
+            Your Account Balance is :
+            <h2>5.000.000 EUR</h2>
+        </section>
+        <section  id="virement" class="content-section">
+            <div class="transfer-container">
+                <h2>Make a Transfer</h2>
+                <form id="transferForm">
+                    <div class="form-group">
+                        <label for="fromAccount">From Account:</label>
+                        <select id="fromAccount" name="fromAccount" required>
+                            <option value="">Select Account</option>
+                            <option value="checking">Checking Account</option>
+                            <option value="savings">Savings Account</option>
+                            <!-- Additional accounts can be added here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="toAccount">To Account (IBAN):</label>
+                        <input type="text" id="toAccount" name="toAccount" placeholder="Enter recipient IBAN" required pattern="^[A-Za-z]{2}\d{2}[A-Za-z0-9]{1,30}$">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" placeholder="Enter amount" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="transferNote">Transfer Note:</label>
+                        <textarea id="transferNote" name="transferNote" placeholder="Enter any notes here"></textarea>
+                    </div>
+                    <button type="submit">Submit Transfer</button>
+                </form>
+            </div>
+        </section>
+        <!-- More sections can be added here -->
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/transactions') 
+                .then(response => response.json())
+                .then(transactions => {
+                    const transactionsList = document.getElementById('transactionsList');
+                    transactions.forEach(transaction => {
+                        const li = document.createElement('li');
+                        li.textContent = `Transaction ${transaction.id}: $${transaction.amount}`; 
+                        transactionsList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching transactions:', error));
+        });
+    </script>
+    </div>
+</body>
+</html>

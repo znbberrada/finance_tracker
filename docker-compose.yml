@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  user-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_management_db
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  transaction-db:
+    image: postgres
+    volumes:
+      - ./transaction-management/init.sql:/docker-entrypoint-initdb.d/transaction_init.sql
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transaction_management_db
+    ports:
+      - "5433:5432"
+    networks:
+      - mynetwork
+
+  user-management:
+    build: ./backend/user-management
+    ports:
+      - "5000:5000"
+    depends_on:
+      - user-db
+    environment:
+      DATABASE_URL: postgresql://user:password@user-db/user_management_db
+    networks:
+      - mynetwork
+
+  transaction-management:
+    build: ./backend/transaction-management
+    ports:
+      - "5001:5000"
+    depends_on:
+      - transaction-db
+    environment:
+      DATABASE_URL: postgresql://user:password@transaction-db/transaction_management_db
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
